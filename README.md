@@ -11,7 +11,7 @@ Incluye autenticación por roles (Administrador, Secretaría y Chofer) y generac
 ## 🖼️ Mockups
 
 
-📎 *(Agrega aquí las imágenes o el enlace a tus diseños en Figma o WireframePro)*
+
 
 
 
