@@ -8,7 +8,6 @@ Incluye autenticación por roles (Administrador, Secretaría y Chofer) y generac
 
 
 
-## 🖼️ Mockups
 
 
 
