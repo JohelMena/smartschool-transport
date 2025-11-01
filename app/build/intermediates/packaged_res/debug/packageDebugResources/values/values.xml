@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <string name="add">Add</string>
+    <string name="app_name">SmartSchoolApp</string>
+    <string name="attendance_desc">Here you can manage student attendance records.</string>
+    <string name="attendance_module">Attendance Management</string>
+    <string name="attendance_title">Attendance Management</string>
+    <string name="back_to_main">Back to Main Menu</string>
+    <string name="bus_desc">Here you can register and manage buses.</string>
+    <string name="bus_module">Bus Management</string>
+    <string name="bus_title">Bus Management</string>
+    <string name="driver_desc">Here you can register and manage bus drivers.</string>
+    <string name="driver_module">Driver Management</string>
+    <string name="driver_title">Driver Management</string>
+    <string name="guardian_desc">Here you can add and manage student guardians.</string>
+    <string name="guardian_module">Guardian Management</string>
+    <string name="guardian_title">Guardian Management</string>
+    <string name="main_title">Smart School Management</string>
+    <string name="route_desc">Here you can create and manage bus routes.</string>
+    <string name="route_module">Route Management</string>
+    <string name="route_title">Route Management</string>
+    <string name="student_desc">Here you can register and manage students.</string>
+    <string name="student_module">Student Management</string>
+    <string name="student_title">Student Management</string>
+    <string name="view_list">View List</string>
+    <style name="Base.Theme.SmartSchoolApp" parent="Theme.Material3.DayNight.NoActionBar">
+        
+        
+    </style>
+    <style name="Theme.SmartSchoolApp" parent="Base.Theme.SmartSchoolApp"/>
+</resources>

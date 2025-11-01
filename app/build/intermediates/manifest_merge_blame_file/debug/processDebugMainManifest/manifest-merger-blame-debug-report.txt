@@ -1,0 +1,179 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.johel.smartschoolapp"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="24"
+9        android:targetSdkVersion="36" />
+10
+11    <permission
+11-->[androidx.core:core:1.17.0] C:\Users\menaj\.gradle\caches\8.13\transforms\cb5f6f8bf2c7a7ef52f138f50dee19f9\transformed\core-1.17.0\AndroidManifest.xml:22:5-24:47
+12        android:name="com.johel.smartschoolapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+12-->[androidx.core:core:1.17.0] C:\Users\menaj\.gradle\caches\8.13\transforms\cb5f6f8bf2c7a7ef52f138f50dee19f9\transformed\core-1.17.0\AndroidManifest.xml:23:9-81
+13        android:protectionLevel="signature" />
+13-->[androidx.core:core:1.17.0] C:\Users\menaj\.gradle\caches\8.13\transforms\cb5f6f8bf2c7a7ef52f138f50dee19f9\transformed\core-1.17.0\AndroidManifest.xml:24:9-44
+14
+15    <uses-permission android:name="com.johel.smartschoolapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+15-->[androidx.core:core:1.17.0] C:\Users\menaj\.gradle\caches\8.13\transforms\cb5f6f8bf2c7a7ef52f138f50dee19f9\transformed\core-1.17.0\AndroidManifest.xml:26:5-97
+15-->[androidx.core:core:1.17.0] C:\Users\menaj\.gradle\caches\8.13\transforms\cb5f6f8bf2c7a7ef52f138f50dee19f9\transformed\core-1.17.0\AndroidManifest.xml:26:22-94
+16
+17    <application
+17-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:5:5-55:19
+18        android:allowBackup="true"
+18-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:6:9-35
+19        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+19-->[androidx.core:core:1.17.0] C:\Users\menaj\.gradle\caches\8.13\transforms\cb5f6f8bf2c7a7ef52f138f50dee19f9\transformed\core-1.17.0\AndroidManifest.xml:28:18-86
+20        android:debuggable="true"
+21        android:extractNativeLibs="false"
+22        android:icon="@mipmap/ic_launcher"
+22-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:7:9-43
+23        android:label="SmartSchoolApp"
+23-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:8:9-39
+24        android:roundIcon="@mipmap/ic_launcher_round"
+24-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:9:9-54
+25        android:supportsRtl="true"
+25-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:10:9-35
+26        android:testOnly="true"
+27        android:theme="@style/Theme.SmartSchoolApp" >
+27-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:11:9-52
+28
+29        <!-- === ACTIVITIES DEL PROYECTO === -->
+30
+31
+32        <!-- Pantalla principal -->
+33        <activity
+33-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:16:9-23:20
+34            android:name="com.johel.smartschoolapp.MainActivity"
+34-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:17:13-41
+35            android:exported="true" >
+35-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:18:13-36
+36            <intent-filter>
+36-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:19:13-22:29
+37                <action android:name="android.intent.action.MAIN" />
+37-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:20:17-69
+37-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:20:25-66
+38
+39                <category android:name="android.intent.category.LAUNCHER" />
+39-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:21:17-77
+39-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:21:27-74
+40            </intent-filter>
+41        </activity>
+42
+43        <!-- Módulo: Estudiantes -->
+44        <activity
+44-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:26:9-28:40
+45            android:name="com.johel.smartschoolapp.StudentActivity"
+45-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:27:13-44
+46            android:exported="false" />
+46-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:28:13-37
+47
+48        <!-- Módulo: Rutas -->
+49        <activity
+49-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:31:9-33:40
+50            android:name="com.johel.smartschoolapp.RouteActivity"
+50-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:32:13-42
+51            android:exported="false" />
+51-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:33:13-37
+52
+53        <!-- Módulo: Asistencia -->
+54        <activity
+54-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:36:9-38:40
+55            android:name="com.johel.smartschoolapp.AttendanceActivity"
+55-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:37:13-47
+56            android:exported="false" />
+56-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:38:13-37
+57
+58        <!-- Módulo: Conductores -->
+59        <activity
+59-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:41:9-43:40
+60            android:name="com.johel.smartschoolapp.DriverActivity"
+60-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:42:13-43
+61            android:exported="false" />
+61-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:43:13-37
+62
+63        <!-- Módulo: Autobuses -->
+64        <activity
+64-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:46:9-48:40
+65            android:name="com.johel.smartschoolapp.BusActivity"
+65-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:47:13-40
+66            android:exported="false" />
+66-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:48:13-37
+67
+68        <!-- Módulo: Acudientes -->
+69        <activity
+69-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:51:9-53:40
+70            android:name="com.johel.smartschoolapp.GuardianActivity"
+70-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:52:13-45
+71            android:exported="false" />
+71-->C:\App-Mobiles\app\src\main\AndroidManifest.xml:53:13-37
+72
+73        <provider
+73-->[androidx.emoji2:emoji2:1.3.0] C:\Users\menaj\.gradle\caches\8.13\transforms\a4c898b749837c45faf546dcf3d424a1\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+74            android:name="androidx.startup.InitializationProvider"
+74-->[androidx.emoji2:emoji2:1.3.0] C:\Users\menaj\.gradle\caches\8.13\transforms\a4c898b749837c45faf546dcf3d424a1\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+75            android:authorities="com.johel.smartschoolapp.androidx-startup"
+75-->[androidx.emoji2:emoji2:1.3.0] C:\Users\menaj\.gradle\caches\8.13\transforms\a4c898b749837c45faf546dcf3d424a1\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+76            android:exported="false" >
+76-->[androidx.emoji2:emoji2:1.3.0] C:\Users\menaj\.gradle\caches\8.13\transforms\a4c898b749837c45faf546dcf3d424a1\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+77            <meta-data
+77-->[androidx.emoji2:emoji2:1.3.0] C:\Users\menaj\.gradle\caches\8.13\transforms\a4c898b749837c45faf546dcf3d424a1\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+78                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+78-->[androidx.emoji2:emoji2:1.3.0] C:\Users\menaj\.gradle\caches\8.13\transforms\a4c898b749837c45faf546dcf3d424a1\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+79                android:value="androidx.startup" />
+79-->[androidx.emoji2:emoji2:1.3.0] C:\Users\menaj\.gradle\caches\8.13\transforms\a4c898b749837c45faf546dcf3d424a1\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+80            <meta-data
+80-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\menaj\.gradle\caches\8.13\transforms\d3763f261812a65b837d2ae77601bdce\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
+81                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+81-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\menaj\.gradle\caches\8.13\transforms\d3763f261812a65b837d2ae77601bdce\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
+82                android:value="androidx.startup" />
+82-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\menaj\.gradle\caches\8.13\transforms\d3763f261812a65b837d2ae77601bdce\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
+83            <meta-data
+83-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:29:13-31:52
+84                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+84-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:30:17-85
+85                android:value="androidx.startup" />
+85-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:31:17-49
+86        </provider>
+87
+88        <receiver
+88-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:34:9-52:20
+89            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+89-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:35:13-76
+90            android:directBootAware="false"
+90-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:36:13-44
+91            android:enabled="true"
+91-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:37:13-35
+92            android:exported="true"
+92-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:38:13-36
+93            android:permission="android.permission.DUMP" >
+93-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:39:13-57
+94            <intent-filter>
+94-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:40:13-42:29
+95                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+95-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:17-91
+95-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:25-88
+96            </intent-filter>
+97            <intent-filter>
+97-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:43:13-45:29
+98                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+98-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:17-85
+98-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:25-82
+99            </intent-filter>
+100            <intent-filter>
+100-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:46:13-48:29
+101                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+101-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:17-88
+101-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:25-85
+102            </intent-filter>
+103            <intent-filter>
+103-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:49:13-51:29
+104                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+104-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:17-95
+104-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\menaj\.gradle\caches\8.13\transforms\ab84e5f65df9a9be409425061bd6916e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:25-92
+105            </intent-filter>
+106        </receiver>
+107    </application>
+108
+109</manifest>
