@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.johel.smartschoolapp">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="SmartSchoolApp"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SmartSchoolApp">
+
+        <!-- === ACTIVITIES DEL PROYECTO === -->
+
+        <!-- Pantalla principal -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Módulo: Estudiantes -->
+        <activity
+            android:name=".StudentActivity"
+            android:exported="false" />
+
+        <!-- Módulo: Rutas -->
+        <activity
+            android:name=".RouteActivity"
+            android:exported="false" />
+
+        <!-- Módulo: Asistencia -->
+        <activity
+            android:name=".AttendanceActivity"
+            android:exported="false" />
+
+        <!-- Módulo: Conductores -->
+        <activity
+            android:name=".DriverActivity"
+            android:exported="false" />
+
+        <!-- Módulo: Autobuses -->
+        <activity
+            android:name=".BusActivity"
+            android:exported="false" />
+
+        <!-- Módulo: Acudientes -->
+        <activity
+            android:name=".GuardianActivity"
+            android:exported="false" />
+
+    </application>
+
+</manifest>
