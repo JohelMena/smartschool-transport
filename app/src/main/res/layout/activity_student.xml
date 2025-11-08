@@ -1,50 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp">
+    android:fillViewport="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/student_title"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="12dp" />
-
-    <TextView
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/student_desc"
-        android:textAlignment="center"
-        android:layout_marginBottom="20dp" />
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/btnAddStudent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add"
-        android:backgroundTint="#3B82F6"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="12dp" />
+        <!-- Student name -->
+        <EditText
+            android:id="@+id/etStudentName"
+            android:hint="Student name"
+            android:inputType="textPersonName"
+            android:autofillHints="name"
+            android:minHeight="48dp"
+            android:padding="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/btnViewStudents"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/view_list"
-        android:backgroundTint="#3B82F6"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="20dp" />
+        <!-- Student grade -->
+        <EditText
+            android:id="@+id/etStudentGrade"
+            android:hint="Student grade"
+            android:inputType="text"
+            android:autofillHints="education"
+            android:minHeight="48dp"
+            android:padding="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/btnBackToMain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/back_to_main"
-        android:backgroundTint="#6B7280"
-        android:textColor="#FFFFFF" />
+        <!-- BtnAdd -->
+        <Button
+            android:id="@+id/btnAddStudent"
+            android:text="Add Student"
+            android:minHeight="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-</LinearLayout>
+        <!-- btnUpdate -->
+        <Button
+            android:id="@+id/btnUpdateStudent"
+            android:text="Update Student"
+            android:minHeight="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- btnDelete -->
+        <Button
+            android:id="@+id/btnDeleteStudent"
+            android:text="Delete Student"
+            android:minHeight="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- search bar -->
+        <SearchView
+            android:id="@+id/searchStudent"
+            android:queryHint="Search student"
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- student list -->
+        <ListView
+            android:id="@+id/listViewStudents"
+            android:layout_marginTop="12dp"
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</ScrollView>
