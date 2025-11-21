@@ -1,50 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/route_title"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="12dp" />
-
-    <TextView
+    <!-- Top toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBarRoute"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/route_desc"
-        android:textAlignment="center"
-        android:layout_marginBottom="20dp" />
+        android:layout_height="?attr/actionBarSize"
+        android:backgroundTint="@color/black"
+        app:title="Routes"
+        app:titleTextColor="@android:color/white"
+        app:navigationIcon="@drawable/ic_arrow_back_24" />
 
-    <Button
-        android:id="@+id/btnAddRoute"
+    <!-- Scrollable content -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add"
-        android:backgroundTint="#3B82F6"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="12dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-    <Button
-        android:id="@+id/btnViewRoutes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/view_list"
-        android:backgroundTint="#3B82F6"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="20dp" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/btnBackToMain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/back_to_main"
-        android:backgroundTint="#6B7280"
-        android:textColor="#FFFFFF" />
+            <!-- Route name -->
+            <EditText
+                android:id="@+id/etRouteName"
+                android:hint="Route name"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:padding="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Driver selector -->
+            <Spinner
+                android:id="@+id/spDriver"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+
+            <!-- Bus selector -->
+            <Spinner
+                android:id="@+id/spBus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+
+            <!-- BtnAdd -->
+            <Button
+                android:id="@+id/btnAddRoute"
+                android:text="Add route"
+                android:minHeight="48dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- btnUpdate -->
+            <Button
+                android:id="@+id/btnUpdateRoute"
+                android:text="Update route"
+                android:minHeight="48dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- btnDelete -->
+            <Button
+                android:id="@+id/btnDeleteRoute"
+                android:text="Delete route"
+                android:minHeight="48dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- search bar -->
+            <SearchView
+                android:id="@+id/searchRoute"
+                android:queryHint="Search route"
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- routes list -->
+            <ListView
+                android:id="@+id/listViewRoutes"
+                android:layout_marginTop="12dp"
+                android:divider="@android:color/darker_gray"
+                android:dividerHeight="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

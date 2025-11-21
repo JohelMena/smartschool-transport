@@ -5,9 +5,12 @@ class Student(
     fullName: String,
     val birthDate: String,
     val enrollmentCode: String,
-    val guardianId: String
+    val guardianId: String,
+    val routeId: String? = null   // <-- new field
 ) : User(id, fullName) {
+
     override fun toString(): String {
-        return "Student(id='$id', fullName='$fullName', birthDate='$birthDate', enrollmentCode='$enrollmentCode', guardianId='$guardianId')"
+        return "Student(id='$id', fullName='$fullName', birthDate='$birthDate', " +
+                "enrollmentCode='$enrollmentCode', guardianId='$guardianId', routeId='$routeId')"
     }
 }

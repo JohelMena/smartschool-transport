@@ -1,80 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:padding="16dp"
+    <!-- Top toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="?attr/actionBarSize"
+        android:backgroundTint="@color/black"
+        app:title="Students"
+        app:titleTextColor="@android:color/white"
+        app:navigationIcon="@drawable/ic_arrow_back_24" />
 
-        <!-- Student name -->
-        <EditText
-            android:id="@+id/etStudentName"
-            android:hint="Student name"
-            android:inputType="textPersonName"
-            android:autofillHints="name"
-            android:minHeight="48dp"
-            android:padding="12dp"
+    <!-- Scrollable content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="16dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
 
-        <!-- Student grade -->
-        <EditText
-            android:id="@+id/etStudentGrade"
-            android:hint="Student grade"
-            android:inputType="text"
-            android:autofillHints="education"
-            android:minHeight="48dp"
-            android:padding="12dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <!-- Photo preview -->
+            <ImageView
+                android:id="@+id/ivStudentPhoto"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:src="@mipmap/ic_launcher_round"
+                android:scaleType="centerCrop"
+                android:contentDescription="Student photo" />
 
-        <!-- BtnAdd -->
-        <Button
-            android:id="@+id/btnAddStudent"
-            android:text="Add Student"
-            android:minHeight="48dp"
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <!-- Select photo button -->
+            <Button
+                android:id="@+id/btnSelectPhoto"
+                android:text="Select photo"
+                android:minHeight="48dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content" />
 
-        <!-- btnUpdate -->
-        <Button
-            android:id="@+id/btnUpdateStudent"
-            android:text="Update Student"
-            android:minHeight="48dp"
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <!-- Student name -->
+            <EditText
+                android:id="@+id/etStudentName"
+                android:hint="Student name"
+                android:inputType="textPersonName"
+                android:autofillHints="name"
+                android:minHeight="48dp"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <!-- btnDelete -->
-        <Button
-            android:id="@+id/btnDeleteStudent"
-            android:text="Delete Student"
-            android:minHeight="48dp"
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <!-- Student grade -->
+            <EditText
+                android:id="@+id/etStudentGrade"
+                android:hint="Student grade"
+                android:inputType="text"
+                android:autofillHints="education"
+                android:minHeight="48dp"
+                android:padding="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <!-- search bar -->
-        <SearchView
-            android:id="@+id/searchStudent"
-            android:queryHint="Search student"
-            android:layout_marginTop="12dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <!-- Route selector -->
+            <Spinner
+                android:id="@+id/spRoute"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                 />
 
-        <!-- student list -->
-        <ListView
-            android:id="@+id/listViewStudents"
-            android:layout_marginTop="12dp"
-            android:divider="@android:color/darker_gray"
-            android:dividerHeight="1dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <!-- BtnAdd -->
+            <Button
+                android:id="@+id/btnAddStudent"
+                android:text="Add Student"
+                android:minHeight="48dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-    </LinearLayout>
-</ScrollView>
+            <!-- btnUpdate -->
+            <Button
+                android:id="@+id/btnUpdateStudent"
+                android:text="Update Student"
+                android:minHeight="48dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- btnDelete -->
+            <Button
+                android:id="@+id/btnDeleteStudent"
+                android:text="Delete Student"
+                android:minHeight="48dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- search bar -->
+            <SearchView
+                android:id="@+id/searchStudent"
+                android:queryHint="Search student"
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- student list -->
+            <ListView
+                android:id="@+id/listViewStudents"
+                android:layout_marginTop="12dp"
+                android:divider="@android:color/darker_gray"
+                android:dividerHeight="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
