@@ -20,6 +20,7 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
+        <!-- Nombre -->
         <TextView
             android:id="@+id/tvItemName"
             android:layout_width="wrap_content"
@@ -28,12 +29,31 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
+        <!-- Grado -->
         <TextView
             android:id="@+id/tvItemGrade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Grade"
             android:textSize="14sp" />
+
+        <!-- Encargado / Guardian -->
+        <TextView
+            android:id="@+id/tvItemGuardian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Guardian: Mother"
+            android:textSize="13sp" />
+
+        <!-- ID (opcional, info técnica) -->
+        <TextView
+            android:id="@+id/tvItemId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ID: 123"
+            android:textSize="11sp"
+            android:textColor="#666666" />
+
     </LinearLayout>
 
 </LinearLayout>

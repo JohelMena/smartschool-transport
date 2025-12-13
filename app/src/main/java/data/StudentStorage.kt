@@ -1,15 +1,12 @@
 package com.johel.smartschoolapp.data
 
 import android.graphics.Bitmap
-import com.johel.smartschoolapp.controllers.StudentController
-import com.johel.smartschoolapp.domain.Student
 
+/**
+ * Almacenamiento en memoria para fotos de estudiantes.
+ * (id de estudiante -> Bitmap de la foto)
+ */
 object StudentStorage {
-    private val dataManager = MemoryDataManager<Student> { it.id }
 
-    // Controller used by all activities
-    val controller = StudentController(dataManager)
-
-    // In-memory map: student id -> photo bitmap
     val photos: MutableMap<String, Bitmap> = mutableMapOf()
 }

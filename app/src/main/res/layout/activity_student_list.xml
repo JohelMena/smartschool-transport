@@ -6,18 +6,15 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/topAppBarList"
+        android:id="@+id/topAppBar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:backgroundTint="@color/black"
-        app:title="Students list"
-        app:titleTextColor="@android:color/white"
+        android:layout_height="wrap_content"
+        android:title="Students list"
         app:navigationIcon="@drawable/ic_arrow_back_24" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvStudents"
+        android:id="@+id/recyclerStudents"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

@@ -1,50 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/bus_title"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="12dp" />
-
-    <TextView
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/bus_desc"
-        android:textAlignment="center"
-        android:layout_marginBottom="20dp" />
+        android:title="SmartSchoolApp"
+        app:navigationIcon="@drawable/ic_arrow_back_24" />
 
-    <Button
-        android:id="@+id/btnAddBus"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add"
-        android:backgroundTint="#3B82F6"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="12dp" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnViewBuses"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/view_list"
-        android:backgroundTint="#3B82F6"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="20dp" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="24dp">
 
-    <Button
-        android:id="@+id/btnBackToMain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/back_to_main"
-        android:backgroundTint="#6B7280"
-        android:textColor="#FFFFFF" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bus plate"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etBusPlate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="e.g. BUS-123"
+                android:inputType="textCapCharacters"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Capacity"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/etBusCapacity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="e.g. 40"
+                android:inputType="number"
+                android:layout_marginBottom="24dp" />
+
+            <Button
+                android:id="@+id/btnAddBus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add bus"
+                android:backgroundTint="#6366F1"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="12dp" />
+
+            <Button
+                android:id="@+id/btnUpdateBus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Update bus"
+                android:backgroundTint="#6366F1"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="12dp" />
+
+            <Button
+                android:id="@+id/btnDeleteBus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delete bus"
+                android:backgroundTint="#EF4444"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="24dp" />
+
+            <Button
+                android:id="@+id/btnViewBusList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="View buses"
+                android:backgroundTint="#3B82F6"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="24dp" />
+
+            <Button
+                android:id="@+id/btnBackToMain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Back to main menu"
+                android:backgroundTint="#6B7280"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

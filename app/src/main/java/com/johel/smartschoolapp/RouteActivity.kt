@@ -1,216 +1,308 @@
 package com.johel.smartschoolapp
 
 import android.os.Bundle
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
-import com.johel.smartschoolapp.data.BusStorage
-import com.johel.smartschoolapp.data.DriverStorage
-import com.johel.smartschoolapp.data.RouteStorage
-import com.johel.smartschoolapp.domain.Bus
-import com.johel.smartschoolapp.domain.Driver
-import com.johel.smartschoolapp.domain.Route
-import com.johel.smartschoolapp.util.IdGenerator
+import com.johel.smartschoolapp.api.ApiClient
+import com.johel.smartschoolapp.api.RouteDto
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class RouteActivity : AppCompatActivity() {
 
-    private lateinit var etRouteName: EditText
-    private lateinit var spDriver: Spinner
-    private lateinit var spBus: Spinner
-    private lateinit var listView: ListView
-    private lateinit var adapter: ArrayAdapter<String>
+    // --- UI ---
+    private lateinit var etName: EditText
+    private lateinit var etStart: EditText
+    private lateinit var etEnd: EditText
 
-    // Display list
-    private val displayRoutes = mutableListOf<String>()
+    // --- Datos en memoria para el diálogo ---
+    private val routes = mutableListOf<UiRoute>()
+    private var selectedRoute: UiRoute? = null
 
-    // Selected route
-    private var selectedRoute: Route? = null
-
-    // Data lists
-    private lateinit var drivers: List<Driver>
-    private lateinit var buses: List<Bus>
+    data class UiRoute(
+        val id: String,
+        val name: String,
+        val startPoint: String,
+        val endPoint: String
+    ) {
+        override fun toString(): String = "$name: $startPoint -> $endPoint"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_route)
 
         // Toolbar
-        val toolbar = findViewById<MaterialToolbar>(R.id.topAppBarRoute)
+        val toolbar = findViewById<MaterialToolbar>(R.id.topAppBar)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener { finish() }
 
         // UI
-        etRouteName = findViewById(R.id.etRouteName)
-        spDriver = findViewById(R.id.spDriver)
-        spBus = findViewById(R.id.spBus)
-        listView = findViewById(R.id.listViewRoutes)
+        etName = findViewById(R.id.etRouteName)
+        etStart = findViewById(R.id.etStartPoint)
+        etEnd = findViewById(R.id.etEndPoint)
 
-        // Load drivers
-        drivers = DriverStorage.getAll()
-        val driverNames = drivers.map { it.fullName }
-        val driverAdapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            driverNames
-        )
-        driverAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spDriver.adapter = driverAdapter
+        val btnAdd = findViewById<Button>(R.id.btnAddRoute)
+        val btnUpdate = findViewById<Button>(R.id.btnUpdateRoute)
+        val btnDelete = findViewById<Button>(R.id.btnDeleteRoute)
+        val btnViewList = findViewById<Button>(R.id.btnViewRouteList)
+        val btnBack = findViewById<Button>(R.id.btnBackToMain)
 
-        // Load buses
-        buses = BusStorage.getAll()
-        val busNames = buses.map { it.plate }
-        val busAdapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            busNames
-        )
-        busAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spBus.adapter = busAdapter
+        btnAdd.setOnClickListener { onAddRoute() }
+        btnUpdate.setOnClickListener { onUpdateRoute() }
+        btnDelete.setOnClickListener { onDeleteRoute() }
+        btnViewList.setOnClickListener { showRouteListDialog() }
+        btnBack.setOnClickListener { finish() }
 
-        // List adapter
-        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, displayRoutes)
-        listView.adapter = adapter
-
-        // ADD
-        findViewById<Button>(R.id.btnAddRoute).setOnClickListener {
-            val name = etRouteName.text.toString().trim()
-
-            if (name.isEmpty()) {
-                Toast.makeText(this, "Please enter route name", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            if (drivers.isEmpty()) {
-                Toast.makeText(this, "No drivers available", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            if (buses.isEmpty()) {
-                Toast.makeText(this, "No buses available", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            val driver = drivers.getOrNull(spDriver.selectedItemPosition)
-            val bus = buses.getOrNull(spBus.selectedItemPosition)
-
-            val newRoute = Route(
-                id = IdGenerator.newID(),
-                name = name,
-                driverId = driver?.id ?: "",
-                busId = bus?.id ?: ""
-            )
-
-            RouteStorage.controller.add(newRoute)
-            clearFields()
-            refreshRouteList()
-            Toast.makeText(this, "Route added", Toast.LENGTH_SHORT).show()
-        }
-
-        // UPDATE
-        findViewById<Button>(R.id.btnUpdateRoute).setOnClickListener {
-            val current = selectedRoute
-            if (current == null) {
-                Toast.makeText(this, "Select a route first", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            showConfirmationDialog("Update") {
-                val name = etRouteName.text.toString().trim()
-
-                if (name.isEmpty()) {
-                    Toast.makeText(this, "Please enter route name", Toast.LENGTH_SHORT).show()
-                    return@showConfirmationDialog
-                }
-
-                val driver = drivers.getOrNull(spDriver.selectedItemPosition)
-                val bus = buses.getOrNull(spBus.selectedItemPosition)
-
-                val updatedRoute = Route(
-                    id = current.id,
-                    name = name,
-                    driverId = driver?.id ?: "",
-                    busId = bus?.id ?: ""
-                )
-
-                RouteStorage.controller.update(updatedRoute)
-                selectedRoute = updatedRoute
-                refreshRouteList()
-                Toast.makeText(this, "Route updated", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        // DELETE
-        findViewById<Button>(R.id.btnDeleteRoute).setOnClickListener {
-            val current = selectedRoute
-            if (current == null) {
-                Toast.makeText(this, "Select a route first", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            showConfirmationDialog("Delete") {
-                RouteStorage.controller.removeById(current.id)
-                selectedRoute = null
-                clearFields()
-                refreshRouteList()
-                Toast.makeText(this, "Route deleted", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        // LIST item click
-        listView.setOnItemClickListener { _, _, position, _ ->
-            val displayText = adapter.getItem(position) ?: return@setOnItemClickListener
-            val route = findRouteByDisplay(displayText)
-            if (route != null) {
-                selectedRoute = route
-                etRouteName.setText(route.name)
-
-                // Set driver spinner
-                val driverIndex = drivers.indexOfFirst { it.id == route.driverId }
-                if (driverIndex >= 0) spDriver.setSelection(driverIndex) else spDriver.setSelection(0)
-
-                // Set bus spinner
-                val busIndex = buses.indexOfFirst { it.id == route.busId }
-                if (busIndex >= 0) spBus.setSelection(busIndex) else spBus.setSelection(0)
-            }
-        }
-
-        // SEARCH
-        val searchView = findViewById<SearchView>(R.id.searchRoute)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean = false
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                adapter.filter.filter(newText)
-                return false
-            }
-        })
-
-        // Load initial list
+        // Cargar rutas iniciales desde el API
         refreshRouteList()
     }
 
-    private fun refreshRouteList() {
-        val routes = RouteStorage.controller.getAll()
-        displayRoutes.clear()
-        displayRoutes.addAll(
-            routes.map { route ->
-                val driverName = DriverStorage.getAll().find { it.id == route.driverId }?.fullName ?: "No driver"
-                val busPlate = BusStorage.getAll().find { it.id == route.busId }?.plate ?: "No bus"
-                "${route.name} - Driver: $driverName - Bus: $busPlate"
-            }
+    // ---------------------- ACCIONES ----------------------
+
+    private fun onAddRoute() {
+        val name = etName.text.toString().trim()
+        val start = etStart.text.toString().trim()
+        val end = etEnd.text.toString().trim()
+
+        if (name.isEmpty()) {
+            Toast.makeText(this, "Enter route name", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (start.isEmpty()) {
+            Toast.makeText(this, "Enter start point", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (end.isEmpty()) {
+            Toast.makeText(this, "Enter end point", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val dto = RouteDto(
+            id = null,
+            name = name,
+            driverId = start,
+            busId = end
         )
-        adapter.notifyDataSetChanged()
+
+
+        ApiClient.routeService.createRoute(dto)
+            .enqueue(object : Callback<RouteDto> {
+                override fun onResponse(
+                    call: Call<RouteDto>,
+                    response: Response<RouteDto>
+                ) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(
+                            this@RouteActivity,
+                            "Route created in API",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        clearFields()
+                        refreshRouteList()
+                    } else {
+                        Toast.makeText(
+                            this@RouteActivity,
+                            "Error creating route (${response.code()})",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<RouteDto>, t: Throwable) {
+                    Toast.makeText(
+                        this@RouteActivity,
+                        "Failed to connect: ${t.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
     }
+
+    private fun onUpdateRoute() {
+        val current = selectedRoute
+        if (current == null) {
+            Toast.makeText(this, "Select a route from the list first", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        showConfirmationDialog("Update") {
+            val name = etName.text.toString().trim()
+            val start = etStart.text.toString().trim()
+            val end = etEnd.text.toString().trim()
+
+            if (name.isEmpty()) {
+                Toast.makeText(this, "Enter route name", Toast.LENGTH_SHORT).show()
+                return@showConfirmationDialog
+            }
+            if (start.isEmpty()) {
+                Toast.makeText(this, "Enter start point", Toast.LENGTH_SHORT).show()
+                return@showConfirmationDialog
+            }
+            if (end.isEmpty()) {
+                Toast.makeText(this, "Enter end point", Toast.LENGTH_SHORT).show()
+                return@showConfirmationDialog
+            }
+
+            val dto = RouteDto(
+                id = current.id,
+                name = name,
+                driverId = start,
+                busId = end
+            )
+
+
+            ApiClient.routeService.updateRoute(current.id, dto)
+                .enqueue(object : Callback<RouteDto> {
+                    override fun onResponse(
+                        call: Call<RouteDto>,
+                        response: Response<RouteDto>
+                    ) {
+                        if (response.isSuccessful) {
+                            Toast.makeText(
+                                this@RouteActivity,
+                                "Route updated in API",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            refreshRouteList()
+                        } else {
+                            Toast.makeText(
+                                this@RouteActivity,
+                                "Error updating route (${response.code()})",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<RouteDto>, t: Throwable) {
+                        Toast.makeText(
+                            this@RouteActivity,
+                            "Failed to connect: ${t.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                })
+        }
+    }
+
+    private fun onDeleteRoute() {
+        val current = selectedRoute
+        if (current == null) {
+            Toast.makeText(this, "Select a route from the list first", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        showConfirmationDialog("Delete") {
+            ApiClient.routeService.deleteRoute(current.id)
+                .enqueue(object : Callback<RouteDto> {
+                    override fun onResponse(
+                        call: Call<RouteDto>,
+                        response: Response<RouteDto>
+                    ) {
+                        if (response.isSuccessful) {
+                            Toast.makeText(
+                                this@RouteActivity,
+                                "Route deleted in API",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            selectedRoute = null
+                            clearFields()
+                            refreshRouteList()
+                        } else {
+                            Toast.makeText(
+                                this@RouteActivity,
+                                "Error deleting route (${response.code()})",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<RouteDto>, t: Throwable) {
+                        Toast.makeText(
+                            this@RouteActivity,
+                            "Failed to connect: ${t.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                })
+        }
+    }
+
+    // ---------------------- LISTA / DIÁLOGO ----------------------
+
+    private fun refreshRouteList() {
+        ApiClient.routeService.getRoutes()
+            .enqueue(object : Callback<List<RouteDto>> {
+                override fun onResponse(
+                    call: Call<List<RouteDto>>,
+                    response: Response<List<RouteDto>>
+                ) {
+                    if (response.isSuccessful) {
+                        val dtoList = response.body() ?: emptyList()
+
+                        routes.clear()
+                        routes.addAll(
+                            dtoList.map { dto ->
+                                UiRoute(
+                                    id = dto.id ?: "",
+                                    name = dto.name,
+                                    startPoint = dto.driverId ?: "(no start)",
+                                    endPoint  = dto.busId ?: "(no end)"
+                                )
+                            }
+                        )
+
+                    } else {
+                        Toast.makeText(
+                            this@RouteActivity,
+                            "Error loading routes (${response.code()})",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<List<RouteDto>>, t: Throwable) {
+                    Toast.makeText(
+                        this@RouteActivity,
+                        "Failed to connect: ${t.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+    }
+
+    private fun showRouteListDialog() {
+        if (routes.isEmpty()) {
+            Toast.makeText(this, "No routes found", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val items = routes.map { it.toString() }.toTypedArray()
+
+        AlertDialog.Builder(this)
+            .setTitle("Routes")
+            .setItems(items) { _, which ->
+                val route = routes[which]
+                selectedRoute = route
+                etName.setText(route.name)
+                etStart.setText(route.startPoint)
+                etEnd.setText(route.endPoint)
+            }
+            .setNegativeButton("Close", null)
+            .show()
+    }
+
+    // ---------------------- HELPERS ----------------------
 
     private fun clearFields() {
-        etRouteName.text.clear()
-        if (::drivers.isInitialized && drivers.isNotEmpty()) spDriver.setSelection(0)
-        if (::buses.isInitialized && buses.isNotEmpty()) spBus.setSelection(0)
-    }
-
-    private fun findRouteByDisplay(display: String): Route? {
-        val name = display.substringBefore(" - ").trim()
-        return RouteStorage.controller.getAll().find { it.name == name }
+        etName.text.clear()
+        etStart.text.clear()
+        etEnd.text.clear()
     }
 
     private fun showConfirmationDialog(action: String, onConfirm: () -> Unit) {
