@@ -1,50 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="24dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/route_title"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="12dp" />
-
-    <TextView
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/route_desc"
-        android:textAlignment="center"
-        android:layout_marginBottom="20dp" />
+        android:title="Routes"
+        app:navigationIcon="@drawable/ic_arrow_back_24" />
+
+    <EditText
+        android:id="@+id/etRouteName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Route name"
+        android:layout_marginTop="24dp" />
+
+    <EditText
+        android:id="@+id/etStartPoint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Start point"
+        android:layout_marginTop="12dp" />
+
+    <EditText
+        android:id="@+id/etEndPoint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="End point"
+        android:layout_marginTop="12dp" />
 
     <Button
         android:id="@+id/btnAddRoute"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add"
-        android:backgroundTint="#3B82F6"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="12dp" />
+        android:text="Add route"
+        android:layout_marginTop="24dp" />
 
     <Button
-        android:id="@+id/btnViewRoutes"
+        android:id="@+id/btnUpdateRoute"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/view_list"
-        android:backgroundTint="#3B82F6"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="20dp" />
+        android:text="Update route"
+        android:layout_marginTop="12dp" />
+
+    <Button
+        android:id="@+id/btnDeleteRoute"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete route"
+        android:layout_marginTop="12dp" />
+
+    <Button
+        android:id="@+id/btnViewRouteList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View list"
+        android:layout_marginTop="24dp" />
 
     <Button
         android:id="@+id/btnBackToMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/back_to_main"
-        android:backgroundTint="#6B7280"
-        android:textColor="#FFFFFF" />
-
+        android:text="Back to main menu"
+        android:layout_marginTop="12dp" />
 </LinearLayout>

@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.johel.smartschoolapp">
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Camera permission for taking pictures -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -10,9 +17,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartSchoolApp">
 
-        <!-- === ACTIVITIES DEL PROYECTO === -->
+        <!-- New activity: RecyclerView students list -->
+        <activity
+            android:name=".StudentListActivity"
+            android:exported="false" />
 
-        <!-- Pantalla principal -->
+        <!-- === Project activities === -->
+
+        <!-- Main screen -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -22,34 +34,38 @@
             </intent-filter>
         </activity>
 
-        <!-- Módulo: Estudiantes -->
+        <!-- Students module -->
         <activity
             android:name=".StudentActivity"
             android:exported="false" />
 
-        <!-- Módulo: Rutas -->
+        <!-- Routes module -->
         <activity
             android:name=".RouteActivity"
             android:exported="false" />
 
-        <!-- Módulo: Asistencia -->
+        <!-- Attendance module -->
         <activity
             android:name=".AttendanceActivity"
             android:exported="false" />
 
-        <!-- Módulo: Conductores -->
+        <!-- Drivers module -->
         <activity
             android:name=".DriverActivity"
             android:exported="false" />
 
-        <!-- Módulo: Autobuses -->
+        <!-- Buses module -->
         <activity
             android:name=".BusActivity"
             android:exported="false" />
 
-        <!-- Módulo: Acudientes -->
+        <!-- Guardians module -->
         <activity
             android:name=".GuardianActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".StudentMenuActivity"
             android:exported="false" />
 
     </application>

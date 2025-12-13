@@ -11,9 +11,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Students
+        // Students main menu (sub-menu: CRUD or list)
         findViewById<Button>(R.id.btnStudent).setOnClickListener {
-            startActivity(Intent(this, StudentActivity::class.java))
+            startActivity(Intent(this, StudentMenuActivity::class.java))
         }
 
         // Routes
@@ -39,12 +39,6 @@ class MainActivity : AppCompatActivity() {
         // Guardians
         findViewById<Button>(R.id.btnGuardian).setOnClickListener {
             startActivity(Intent(this, GuardianActivity::class.java))
-        }
-
-        val btnDriver = findViewById<Button>(R.id.btnDriver)
-        btnDriver.setOnClickListener {
-            val intent = Intent(this, DriverActivity::class.java)
-            startActivity(intent)
         }
     }
 }

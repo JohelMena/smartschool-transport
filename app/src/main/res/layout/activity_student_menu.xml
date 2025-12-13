@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBarStudentMenu"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:backgroundTint="@color/black"
+        app:title="Students"
+        app:titleTextColor="@android:color/white"
+        app:navigationIcon="@drawable/ic_arrow_back_24" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/btnStudentCrud"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Manage students"
+            android:textColor="@android:color/white"
+            android:background="@drawable/menu_button_background"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/btnStudentListMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Students list "
+            android:textColor="@android:color/white"
+            android:background="@drawable/menu_button_background"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

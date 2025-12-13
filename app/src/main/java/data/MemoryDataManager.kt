@@ -18,4 +18,7 @@ class MemoryDataManager<T>(private val idSelector: (T) -> String) {
     fun removeById(id: String): Boolean {
         return items.removeIf { idSelector(it) == id }
     }
+    fun clearAll() {
+        items.clear()
+    }
 }
