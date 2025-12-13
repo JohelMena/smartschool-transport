@@ -1,0 +1,225 @@
+Título sugerido:
+SmartSchool – MVP completo (API + App Android)
+
+Descripción general:
+
+Este Pull Request consolida el MVP funcional de SmartSchool, incluyendo:
+- Backend REST (Node/Express) desplegado en Render.
+- Aplicación Android con gestión de estudiantes, rutas, buses, choferes, acudientes (guardians) y módulo de asistencia (attendance) básico.
+
+========================================
+1. BACKEND – SMARTSCHOOL API (Node/Express)
+========================================
+
+Tecnologías:
+- Node.js
+- Express
+- CORS
+- JSON in-memory storage (por ahora, sin base de datos real)
+
+Estructura general:
+- `index.js` expone un conjunto de endpoints RESTful para:
+  - Guardians
+  - Drivers
+  - Buses
+  - Routes
+  - Students
+  - Attendances (nuevo módulo)
+
+Colecciones en memoria:
+- `guardians[]` → { id, fullName, phone, address }
+- `drivers[]`  → { id, fullName, licenseNumber, phone }
+- `buses[]`    → { id, plate, capacity }
+- `routes[]`   → { id, name, driverId, busId }
+- `students[]` → { id, fullName, grade, guardianId, routeId }
+- `attendances[]` → { id, studentId, routeId, busId, date, status }
+
+Helpers genéricos:
+- `getAll(collection)` → handler para GET de listado.
+- `getOne(collection)` → handler para GET por id.
+- `deleteOne(collectionName)` → handler genérico para DELETE por id.
+- `genId(prefix)` → genera ids simples (G…, D…, B…, R…, S…, A…).
+
+Rutas principales:
+
+GUARDIANS
+- GET    `/guardians`
+- GET    `/guardians/:id`
+- POST   `/guardians`
+- PUT    `/guardians/:id`
+- DELETE `/guardians/:id`
+
+DRIVERS
+- GET    `/drivers`
+- GET    `/drivers/:id`
+- POST   `/drivers`
+- PUT    `/drivers/:id`
+- DELETE `/drivers/:id`
+
+BUSES
+- GET    `/buses`
+- GET    `/buses/:id`
+- POST   `/buses`
+- PUT    `/buses/:id`
+- DELETE `/buses/:id`
+
+ROUTES
+- GET    `/routes`
+- GET    `/routes/:id`
+- POST   `/routes`
+- PUT    `/routes/:id`
+- DELETE `/routes/:id`
+
+STUDENTS
+- GET    `/students`
+- GET    `/students/:id`
+- POST   `/students`
+- PUT    `/students/:id`
+- DELETE `/students/:id`
+
+ATTENDANCES (nuevo)
+- GET    `/attendances`
+- GET    `/attendances/:id`
+- POST   `/attendances`
+- PUT    `/attendances/:id`
+- DELETE `/attendances/:id`
+
+Validaciones básicas:
+- `POST /guardians` → requiere `fullName` y `phone`.
+- `POST /drivers`   → requiere `fullName` y `licenseNumber`.
+- `POST /buses`     → requiere `plate`.
+- `POST /routes`    → requiere `name`.
+- `POST /students`  → requiere `fullName` y `grade`.
+- `POST /attendances` → requiere `studentId`, `date`, `status`.
+
+Notas:
+- La API sigue siendo in-memory; un reinicio del servidor limpia los datos.
+- La estructura está pensada para poder enchufar una BD real sin cambiar las rutas externas.
+
+========================================
+2. APP ANDROID – SMARTSCHOOL APP
+========================================
+
+Tecnologías:
+- Kotlin
+- AndroidX / Material Components
+- Retrofit2 para consumo de la API
+- Pantallas con Activities + ListView, Spinners, SearchView
+- Manejo básico de cámara/galería para foto de estudiante (solo local)
+
+Pantallas principales:
+
+2.1 MainActivity
+- Menú principal con navegación a:
+  - Student menu (crud/list)
+  - Routes
+  - Drivers
+  - Buses
+  - Guardians
+  - Attendance
+
+2.2 StudentMenuActivity
+- Submenú para:
+  - Student management (CRUD + asignaciones)
+  - Student list (solo lectura)
+
+2.3 StudentActivity (Student management)
+- CRUD completo contra API `/students`.
+- Campos:
+  - Nombre del estudiante
+  - Grado
+  - Foto (local, no se envía al backend)
+  - Guardian (Spinner) – carga desde `/guardians`.
+  - Route (Spinner) – carga desde `/routes`.
+  - Bus (Spinner) – carga desde `/buses`.
+- Lógica:
+  - `Add Student` → POST a la API con id nulo.
+  - `Update Student` → PUT al student seleccionado desde la lista.
+  - `Delete Student` → DELETE del student seleccionado.
+- Búsqueda:
+  - SearchView que filtra el ListView localmente por nombre / grado.
+- ListView:
+  - Muestra al menos: `Nombre - Grado`.
+  - La lógica interna mantiene lista de `UiStudent` con ids y relaciones (guardianId, routeId, busId).
+
+2.4 StudentListActivity
+- Consume `/students` y muestra lista en modo solo lectura.
+- Útil para ver rápidamente los registros actuales en el servidor.
+
+2.5 GuardianActivity
+- CRUD completo contra `/guardians`.
+- Campos: nombre, teléfono, dirección.
+- Incluye:
+  - SearchView para filtrar.
+  - ListView con los guardians.
+  - Diálogos de confirmación para update/delete.
+
+2.6 DriverActivity
+- CRUD completo contra `/drivers`.
+- Campos: nombre, número de licencia, teléfono.
+- Listado en diálogo (AlertDialog) para seleccionar chofer antes de actualizar/eliminar.
+
+2.7 BusActivity
+- CRUD completo contra `/buses`.
+- Campos: placa, capacidad.
+- Listado en diálogo con formato: `PLACA - Capacity: X`.
+
+2.8 RouteActivity
+- CRUD completo contra `/routes`.
+- Campos: nombre de la ruta.
+- Por ahora, driver y bus pueden gestionarse desde la API/otras pantallas, pero la app consume la lista de rutas para asignar en StudentActivity.
+- Dialog con listado de rutas y selección para editar/eliminar.
+
+2.9 GuardianActivity + integración con Students
+- GuardianActivity trabaja contra `/guardians`.
+- StudentActivity carga guardians en el Spinner y asigna `guardianId` al estudiante.
+
+2.10 AttendanceActivity (solo local por ahora)
+- No se conecta al endpoint de attendances (la API ya está lista, pero la app aún lo maneja localmente).
+- Permite:
+  - Seleccionar estudiante (según diseño actual).
+  - Seleccionar fecha/estado (presente/ausente, etc., según la implementación).
+  - Registrar asistencia en memoria.
+- Futuro: conectar esta pantalla a `/attendances` para que quede persistente en el backend.
+
+Validaciones en la app:
+- Uso de `Validators.isValidName` para asegurar nombres mínimamente válidos.
+- Checks de campos obligatorios (por ejemplo: grado, placa de bus, capacidad numérica positiva, etc.).
+- Diálogos de confirmación para operaciones de update/delete en las principales pantallas.
+
+=============================
+3. PRUEBAS REALIZADAS
+=============================
+
+Backend (con Postman):
+- GET/POST/PUT/DELETE en:
+  - `/guardians`
+  - `/drivers`
+  - `/buses`
+  - `/routes`
+  - `/students`
+  - `/attendances`
+- Verificación de códigos de respuesta 200/201/400/404 según escenarios.
+
+App Android (en dispositivo físico/emulador):
+- Navegación desde MainActivity a cada módulo.
+- Creación, actualización y eliminación de:
+  - Guardians
+  - Drivers
+  - Buses
+  - Routes
+  - Students (incluyendo asignación de guardian/route/bus desde spinners).
+- Verificación de que los cambios se reflejan correctamente al volver a cargar listas desde la API.
+- Búsqueda por nombre en StudentActivity y GuardianActivity vía SearchView.
+- Registro básico de asistencia en AttendanceActivity (local).
+
+=====================================
+4. PENDIENTE / TRABAJO FUTURO
+=====================================
+
+- Conectar AttendanceActivity con el endpoint `/attendances` para que quede persistente en el backend.
+- Manejo de errores más robusto en la app (mensajes específicos según código HTTP).
+- Reemplazar el almacenamiento en memoria del backend por una base de datos real (por ejemplo, MongoDB, PostgreSQL o similar).
+- Posible migración de listas a RecyclerView en lugar de ListView.
+- Subir fotos de estudiante a backend o a un servicio de almacenamiento si se requiere persistencia.
+

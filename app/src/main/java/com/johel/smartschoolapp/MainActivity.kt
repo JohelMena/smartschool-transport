@@ -23,7 +23,8 @@ class MainActivity : AppCompatActivity() {
 
         // Attendance
         findViewById<Button>(R.id.btnAttendance).setOnClickListener {
-            startActivity(Intent(this, AttendanceActivity::class.java))
+
+            startActivity(Intent(this, AtendanceActivity::class.java))
         }
 
         // Drivers

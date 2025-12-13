@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import com.google.android.material.appbar.MaterialToolbar
 import com.johel.smartschoolapp.api.ApiClient
 import com.johel.smartschoolapp.api.GuardianDto
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
+import android.widget.SearchView
 class GuardianActivity : AppCompatActivity() {
 
     // UI

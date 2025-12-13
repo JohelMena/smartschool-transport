@@ -5,5 +5,7 @@ data class StudentDto(
     val fullName: String,
     val grade: String,
     val guardianId: String? = null,
-    val routeId: String? = null
+    val routeId: String? = null,   // nuevo
+    val busId: String? = null      // nuevo
 )
+

@@ -46,7 +46,7 @@
 
         <!-- Attendance module -->
         <activity
-            android:name=".AttendanceActivity"
+            android:name=".AtendanceActivity"
             android:exported="false" />
 
         <!-- Drivers module -->

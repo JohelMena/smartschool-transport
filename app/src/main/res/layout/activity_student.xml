@@ -70,16 +70,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+
             <!-- Guardian -->
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Guardian"
-                android:textStyle="bold"
+                android:textSize="14sp"
                 android:layout_marginTop="12dp" />
 
             <Spinner
                 android:id="@+id/spinnerGuardian"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" />
+
+            <!-- Route -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Route"
+                android:textSize="14sp"
+                android:layout_marginTop="12dp" />
+
+            <Spinner
+                android:id="@+id/spinnerRoute"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" />
+
+            <!-- Bus -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bus"
+                android:textSize="14sp"
+                android:layout_marginTop="12dp" />
+
+            <Spinner
+                android:id="@+id/spinnerBus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp" />
@@ -109,7 +138,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <!-- SearchView -->
+            <!-- SearchView (androidx) -->
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/searchStudent"
                 android:layout_width="match_parent"
