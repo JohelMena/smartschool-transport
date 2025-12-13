@@ -6,15 +6,23 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/topAppBar"
+        android:id="@+id/topAppBarStudentList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:title="Students list"
         app:navigationIcon="@drawable/ic_arrow_back_24" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerStudents"
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchStudentList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:queryHint="Search student" />
+
+    <ListView
+        android:id="@+id/listViewStudentList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp" />
 
 </LinearLayout>

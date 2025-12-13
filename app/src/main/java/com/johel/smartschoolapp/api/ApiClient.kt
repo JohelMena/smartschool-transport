@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
 
-    // Asegúrate de que esta URL sea EXACTAMENTE la de tu API en Render
+    //
     private const val BASE_URL = "https://smartschool-api-zh5d.onrender.com/"
 
     // Cliente Retrofit único para toda la app
@@ -30,4 +30,6 @@ object ApiClient {
     val guardianService: GuardianApiService =
         retrofit.create(GuardianApiService::class.java)
 
+    val attendanceService: AttendanceApiService =
+        retrofit.create(AttendanceApiService::class.java)
 }

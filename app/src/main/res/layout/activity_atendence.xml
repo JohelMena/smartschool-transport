@@ -1,50 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/attendance_title"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="12dp" />
-
-    <TextView
+    <!-- Toolbar superior -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBarAttendance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/attendance_desc"
-        android:textAlignment="center"
-        android:layout_marginBottom="20dp" />
+        android:title="Attendance"
+        app:navigationIcon="@drawable/ic_arrow_back_24" />
 
-    <Button
-        android:id="@+id/btnAddAttendance"
+    <!-- Contenido desplazable -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add"
-        android:backgroundTint="#3B82F6"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="12dp" />
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-    <Button
-        android:id="@+id/btnViewAttendance"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/view_list"
-        android:backgroundTint="#3B82F6"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="20dp" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/btnBackToMain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/back_to_main"
-        android:backgroundTint="#6B7280"
-        android:textColor="#FFFFFF" />
+            <!-- STUDENT -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Student"
+                android:textStyle="bold" />
 
+            <Spinner
+                android:id="@+id/spinnerStudent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" />
+
+            <!-- ROUTE -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Route"
+                android:textStyle="bold"
+                android:layout_marginTop="12dp" />
+
+            <Spinner
+                android:id="@+id/spinnerRoute"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" />
+
+            <!-- BUS -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bus"
+                android:textStyle="bold"
+                android:layout_marginTop="12dp" />
+
+            <Spinner
+                android:id="@+id/spinnerBus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" />
+
+            <!-- DATE -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date (YYYY-MM-DD)"
+                android:textStyle="bold"
+                android:layout_marginTop="12dp" />
+
+            <EditText
+                android:id="@+id/etDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="2025-12-13"
+                android:inputType="date"
+                android:minHeight="48dp"
+                android:padding="12dp"
+                android:layout_marginTop="4dp" />
+
+            <!-- STATUS -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Status"
+                android:textStyle="bold"
+                android:layout_marginTop="12dp" />
+
+            <Spinner
+                android:id="@+id/spinnerStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" />
+
+            <!-- BOTONES -->
+            <Button
+                android:id="@+id/btnAddAttendance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add attendance"
+                android:minHeight="48dp"
+                android:layout_marginTop="16dp" />
+
+            <Button
+                android:id="@+id/btnViewAttendanceList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="View attendance list"
+                android:minHeight="48dp"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btnBackToMain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Back to main menu"
+                android:minHeight="48dp"
+                android:layout_marginTop="8dp" />
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

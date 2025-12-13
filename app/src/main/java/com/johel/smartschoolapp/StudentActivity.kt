@@ -3,23 +3,21 @@ package com.johel.smartschoolapp
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import com.google.android.material.appbar.MaterialToolbar
-import com.johel.smartschoolapp.api.ApiClient
-import com.johel.smartschoolapp.api.StudentDto
-import com.johel.smartschoolapp.domain.Student
+import com.johel.smartschoolapp.api.*
 import com.johel.smartschoolapp.util.Validators
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class StudentActivity : AppCompatActivity() {
 
@@ -28,19 +26,61 @@ class StudentActivity : AppCompatActivity() {
     private lateinit var btnSelectPhoto: Button
     private lateinit var etName: EditText
     private lateinit var etGrade: EditText
-    private lateinit var spGuardian: Spinner
     private lateinit var listView: ListView
     private lateinit var searchView: SearchView
+    private lateinit var spinnerGuardian: Spinner
+    private lateinit var spinnerRoute: Spinner
+    private lateinit var spinnerBus: Spinner
 
-    // --------- Datos en memoria (solo dentro de esta Activity) ----------
-    private val students = mutableListOf<Student>()          // lista real de estudiantes
-    private val displayStudents = mutableListOf<String>()    // textos para el ListView
+    // --------- Datos en memoria ----------
+    private val students = mutableListOf<UiStudent>()
+    private val displayStudents = mutableListOf<String>()
     private lateinit var adapter: ArrayAdapter<String>
 
-    private var selectedStudent: Student? = null
-    private var currentPhotoBitmap: Bitmap? = null           // solo local
+    private val guardians = mutableListOf<UiGuardian>()
+    private lateinit var guardianAdapter: ArrayAdapter<UiGuardian>
 
-    // ================== Activity Result: Cámara / Galería / Permiso ==================
+    private val routes = mutableListOf<UiRoute>()
+    private lateinit var routeAdapter: ArrayAdapter<UiRoute>
+
+    private val buses = mutableListOf<UiBus>()
+    private lateinit var busAdapter: ArrayAdapter<UiBus>
+
+    private var selectedStudent: UiStudent? = null
+    private var currentPhotoBitmap: Bitmap? = null
+
+    // ================== Clases UI ==================
+    data class UiStudent(
+        val id: String,
+        val fullName: String,
+        val grade: String,
+        val guardianId: String?,
+        val routeId: String?,
+        val busId: String?
+    )
+
+    data class UiGuardian(
+        val id: String,
+        val name: String
+    ) {
+        override fun toString(): String = name
+    }
+
+    data class UiRoute(
+        val id: String,
+        val label: String
+    ) {
+        override fun toString(): String = label
+    }
+
+    data class UiBus(
+        val id: String,
+        val label: String
+    ) {
+        override fun toString(): String = label
+    }
+
+    // ================== Activity Result Cámara / Galería / Permiso ==================
 
     private val takePictureLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
@@ -51,9 +91,9 @@ class StudentActivity : AppCompatActivity() {
         }
 
     private val pickImageLauncher =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
-                // getBitmap está deprecado, pero sirve para este proyecto
+                @Suppress("DEPRECATION")
                 val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
                 currentPhotoBitmap = bitmap
                 ivPhoto.setImageBitmap(bitmap)
@@ -75,37 +115,41 @@ class StudentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_student)
 
-        // ---- Toolbar con botón back ----
+        // Toolbar
         val toolbar = findViewById<MaterialToolbar>(R.id.topAppBar)
         setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener { finish() }
 
-        // ---- Referencias UI ----
+        // Referencias UI
         ivPhoto = findViewById(R.id.ivStudentPhoto)
         btnSelectPhoto = findViewById(R.id.btnSelectPhoto)
         etName = findViewById(R.id.etStudentName)
         etGrade = findViewById(R.id.etStudentGrade)
-        spGuardian = findViewById(R.id.spinnerGuardian)
         listView = findViewById(R.id.listViewStudents)
         searchView = findViewById(R.id.searchStudent)
+        spinnerGuardian = findViewById(R.id.spinnerGuardian)
+        spinnerRoute = findViewById(R.id.spinnerRoute)
+        spinnerBus = findViewById(R.id.spinnerBus)
 
-        // ---- Spinner de guardian ----
-        val guardianAdapter = ArrayAdapter.createFromResource(
-            this,
-            R.array.guardian_names,
-            android.R.layout.simple_spinner_item
-        )
-        guardianAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spGuardian.adapter = guardianAdapter
-
-        // ---- Adapter del ListView ----
+        // ListView
         adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, displayStudents)
         listView.adapter = adapter
 
-        // ================== FOTO: botón Select photo ==================
-        btnSelectPhoto.setOnClickListener {
-            showPhotoSourceDialog()
-        }
+        // Spinners
+        guardianAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, guardians)
+        guardianAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerGuardian.adapter = guardianAdapter
+
+        routeAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, routes)
+        routeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerRoute.adapter = routeAdapter
+
+        busAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, buses)
+        busAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerBus.adapter = busAdapter
+
+        // FOTO
+        btnSelectPhoto.setOnClickListener { showPhotoSourceDialog() }
 
         // ================== BOTÓN AGREGAR ==================
         findViewById<Button>(R.id.btnAddStudent).setOnClickListener {
@@ -117,22 +161,22 @@ class StudentActivity : AppCompatActivity() {
                     .show()
                 return@setOnClickListener
             }
-
             if (grade.isEmpty()) {
                 Toast.makeText(this, "Ingrese el grado del estudiante", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Guardian seleccionado
-            val guardianName = spGuardian.selectedItem?.toString() ?: ""
-            val guardianId = if (guardianName == "Select guardian") null else guardianName
+            val guardianId = (spinnerGuardian.selectedItem as? UiGuardian)?.id?.ifBlank { null }
+            val routeId = (spinnerRoute.selectedItem as? UiRoute)?.id?.ifBlank { null }
+            val busId = (spinnerBus.selectedItem as? UiBus)?.id?.ifBlank { null }
 
-            // La API genera el id
             val dto = StudentDto(
                 id = null,
                 fullName = name,
                 grade = grade,
-                guardianId = guardianId
+                guardianId = guardianId,
+                routeId = routeId,
+                busId = busId
             )
 
             ApiClient.studentService.createStudent(dto)
@@ -188,7 +232,6 @@ class StudentActivity : AppCompatActivity() {
                     ).show()
                     return@showConfirmationDialog
                 }
-
                 if (grade.isEmpty()) {
                     Toast.makeText(
                         this,
@@ -198,14 +241,17 @@ class StudentActivity : AppCompatActivity() {
                     return@showConfirmationDialog
                 }
 
-                val guardianName = spGuardian.selectedItem?.toString() ?: ""
-                val guardianId = if (guardianName == "Select guardian") null else guardianName
+                val guardianId = (spinnerGuardian.selectedItem as? UiGuardian)?.id?.ifBlank { null }
+                val routeId = (spinnerRoute.selectedItem as? UiRoute)?.id?.ifBlank { null }
+                val busId = (spinnerBus.selectedItem as? UiBus)?.id?.ifBlank { null }
 
                 val dto = StudentDto(
                     id = current.id,
                     fullName = name,
                     grade = grade,
-                    guardianId = guardianId
+                    guardianId = guardianId,
+                    routeId = routeId,
+                    busId = busId
                 )
 
                 ApiClient.studentService.updateStudent(current.id, dto)
@@ -292,28 +338,29 @@ class StudentActivity : AppCompatActivity() {
             if (student != null) {
                 selectedStudent = student
                 etName.setText(student.fullName)
-                etGrade.setText(student.enrollmentCode)
+                etGrade.setText(student.grade)
 
-                // Ajustamos spinner al guardian del estudiante, si coincide con una opción
-                val guardian = student.guardianId
-                if (guardian.isNotBlank()) {
-                    val index = (0 until spGuardian.count).firstOrNull { i ->
-                        spGuardian.getItemAtPosition(i).toString() == guardian
-                    }
-                    if (index != null) {
-                        spGuardian.setSelection(index)
-                    } else {
-                        spGuardian.setSelection(0) // Select guardian
-                    }
-                } else {
-                    spGuardian.setSelection(0)
-                }
+                // guardian
+                if (!student.guardianId.isNullOrBlank()) {
+                    val gi = guardians.indexOfFirst { it.id == student.guardianId }
+                    spinnerGuardian.setSelection(if (gi >= 0) gi else 0)
+                } else spinnerGuardian.setSelection(0)
+
+                // route
+                if (!student.routeId.isNullOrBlank()) {
+                    val ri = routes.indexOfFirst { it.id == student.routeId }
+                    spinnerRoute.setSelection(if (ri >= 0) ri else 0)
+                } else spinnerRoute.setSelection(0)
+
+                // bus
+                if (!student.busId.isNullOrBlank()) {
+                    val bi = buses.indexOfFirst { it.id == student.busId }
+                    spinnerBus.setSelection(if (bi >= 0) bi else 0)
+                } else spinnerBus.setSelection(0)
             }
         }
 
         // ================== Búsqueda ==================
-        searchView.isIconified = false
-
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 adapter.filter.filter(query)
@@ -328,15 +375,17 @@ class StudentActivity : AppCompatActivity() {
 
         // Carga inicial
         refreshStudentList()
+        loadGuardians()
+        loadRoutes()
+        loadBuses()
     }
 
     // =======================================================================
-    // FOTO: diálogo y helpers
+    // FOTO
     // =======================================================================
 
     private fun showPhotoSourceDialog() {
         val options = arrayOf("Take photo", "Choose from gallery")
-
         AlertDialog.Builder(this)
             .setTitle("Select photo source")
             .setItems(options) { _, which ->
@@ -354,11 +403,8 @@ class StudentActivity : AppCompatActivity() {
             Manifest.permission.CAMERA
         ) == PackageManager.PERMISSION_GRANTED
 
-        if (granted) {
-            openCamera()
-        } else {
-            requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
-        }
+        if (granted) openCamera()
+        else requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
     }
 
     private fun openCamera() {
@@ -370,7 +416,7 @@ class StudentActivity : AppCompatActivity() {
     }
 
     // =======================================================================
-    // API + lógica de listas
+    // API: Students
     // =======================================================================
 
     private fun refreshStudentList() {
@@ -384,19 +430,22 @@ class StudentActivity : AppCompatActivity() {
                         val dtoList = response.body() ?: emptyList()
 
                         students.clear()
-                        students.addAll(dtoList.map { dto ->
-                            Student(
-                                id = dto.id ?: "",
-                                fullName = dto.fullName,
-                                birthDate = "",
-                                enrollmentCode = dto.grade,
-                                guardianId = dto.guardianId ?: ""
-                            )
-                        })
+                        students.addAll(
+                            dtoList.map { dto ->
+                                UiStudent(
+                                    id = dto.id ?: "",
+                                    fullName = dto.fullName,
+                                    grade = dto.grade,
+                                    guardianId = dto.guardianId,
+                                    routeId = dto.routeId,
+                                    busId = dto.busId
+                                )
+                            }
+                        )
 
                         displayStudents.clear()
                         displayStudents.addAll(
-                            students.map { st -> "${st.fullName} - ${st.enrollmentCode}" }
+                            students.map { st -> "${st.fullName} - ${st.grade}" }
                         )
                         adapter.notifyDataSetChanged()
                     } else {
@@ -418,21 +467,155 @@ class StudentActivity : AppCompatActivity() {
             })
     }
 
+    // =======================================================================
+    // API: Guardians
+    // =======================================================================
+
+    private fun loadGuardians() {
+        ApiClient.guardianService.getGuardians()
+            .enqueue(object : Callback<List<GuardianDto>> {
+                override fun onResponse(
+                    call: Call<List<GuardianDto>>,
+                    response: Response<List<GuardianDto>>
+                ) {
+                    if (response.isSuccessful) {
+                        val dtoList = response.body() ?: emptyList()
+
+                        guardians.clear()
+                        guardians.add(UiGuardian(id = "", name = "(No guardian)"))
+                        guardians.addAll(
+                            dtoList.map { dto ->
+                                UiGuardian(
+                                    id = dto.id ?: "",
+                                    name = dto.fullName
+                                )
+                            }
+                        )
+                        guardianAdapter.notifyDataSetChanged()
+                    } else {
+                        Toast.makeText(
+                            this@StudentActivity,
+                            "Error loading guardians (${response.code()})",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<List<GuardianDto>>, t: Throwable) {
+                    Toast.makeText(
+                        this@StudentActivity,
+                        "Failed to load guardians: ${t.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+    }
+
+    // =======================================================================
+    // API: Routes
+    // =======================================================================
+
+    private fun loadRoutes() {
+        ApiClient.routeService.getRoutes()
+            .enqueue(object : Callback<List<RouteDto>> {
+                override fun onResponse(
+                    call: Call<List<RouteDto>>,
+                    response: Response<List<RouteDto>>
+                ) {
+                    if (response.isSuccessful) {
+                        val dtoList = response.body() ?: emptyList()
+
+                        routes.clear()
+                        routes.add(UiRoute(id = "", label = "(No route)"))
+                        routes.addAll(
+                            dtoList.map { dto ->
+                                UiRoute(
+                                    id = dto.id ?: "",
+                                    // usamos solo el nombre; no dependemos de startPoint/endPoint
+                                    label = dto.name
+                                )
+                            }
+                        )
+                        routeAdapter.notifyDataSetChanged()
+                    } else {
+                        Toast.makeText(
+                            this@StudentActivity,
+                            "Error loading routes (${response.code()})",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<List<RouteDto>>, t: Throwable) {
+                    Toast.makeText(
+                        this@StudentActivity,
+                        "Failed to load routes: ${t.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+    }
+
+    // =======================================================================
+    // API: Buses
+    // =======================================================================
+
+    private fun loadBuses() {
+        ApiClient.busService.getBuses()
+            .enqueue(object : Callback<List<BusDto>> {
+                override fun onResponse(
+                    call: Call<List<BusDto>>,
+                    response: Response<List<BusDto>>
+                ) {
+                    if (response.isSuccessful) {
+                        val dtoList = response.body() ?: emptyList()
+
+                        buses.clear()
+                        buses.add(UiBus(id = "", label = "(No bus)"))
+                        buses.addAll(
+                            dtoList.map { dto ->
+                                UiBus(
+                                    id = dto.id ?: "",
+                                    label = "${dto.plate} (Cap: ${dto.capacity})"
+                                )
+                            }
+                        )
+                        busAdapter.notifyDataSetChanged()
+                    } else {
+                        Toast.makeText(
+                            this@StudentActivity,
+                            "Error loading buses (${response.code()})",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<List<BusDto>>, t: Throwable) {
+                    Toast.makeText(
+                        this@StudentActivity,
+                        "Failed to load buses: ${t.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+    }
+
+    // =======================================================================
+
     private fun clearFields() {
         etName.text.clear()
         etGrade.text.clear()
-        spGuardian.setSelection(0)
-        // Si quieres resetear la foto por defecto, descomenta:
-        // ivPhoto.setImageResource(R.mipmap.ic_launcher_round)
-        // currentPhotoBitmap = null
+        spinnerGuardian.setSelection(0)
+        spinnerRoute.setSelection(0)
+        spinnerBus.setSelection(0)
     }
 
-    private fun findStudentByDisplay(display: String): Student? {
+    private fun findStudentByDisplay(display: String): UiStudent? {
         val parts = display.split(" - ")
         if (parts.size < 2) return null
         val name = parts[0]
         val grade = parts[1]
-        return students.find { it.fullName == name && it.enrollmentCode == grade }
+        return students.find { it.fullName == name && it.grade == grade }
     }
 
     private fun showConfirmationDialog(action: String, onConfirm: () -> Unit) {
