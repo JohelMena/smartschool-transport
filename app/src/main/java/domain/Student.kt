@@ -1,11 +1,13 @@
-package com.johel.smartschool.domain
+package com.johel.smartschoolapp.domain
 
-data class Student(
-    val id: String,             // UUID
-    var fullName: String,
-    var birthDate: String,      // "yyyy-MM-dd"
-    var grade: String,          // ej: "2°"
-    var medicalNotes: String? = null,
-    var guardianId: String,     // id del Encargado/Guardian
-    var enrollmentCode: String  // MAT-2025-0001
-)
+class Student(
+    id: String,
+    fullName: String,
+    val birthDate: String,
+    val enrollmentCode: String,
+    val guardianId: String
+) : User(id, fullName) {
+    override fun toString(): String {
+        return "Student(id='$id', fullName='$fullName', birthDate='$birthDate', enrollmentCode='$enrollmentCode', guardianId='$guardianId')"
+    }
+}

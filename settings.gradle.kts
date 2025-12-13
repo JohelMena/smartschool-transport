@@ -19,6 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "SmartSchoolTransport"
+rootProject.name = "SmartSchoolApp"
 include(":app")
- 

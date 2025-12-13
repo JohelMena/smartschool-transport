@@ -1,10 +1,11 @@
-package com.johel.smartschool.domain
+package com.johel.smartschoolapp.domain
 
-data class Bus(
+class Bus(
     val id: String,
-    var plate: String,
-    var capacity: Int,
-    var status: String,         // activo / mantenimiento
-    var type: String? = null,
-    var nextMaintenance: String? = null
-)
+    val plate: String,
+    val capacity: Int
+) {
+    override fun toString(): String {
+        return "Bus(id='$id', plate='$plate', capacity=$capacity)"
+    }
+}

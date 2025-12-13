@@ -1,2 +1,8 @@
-package com.johel.smartschool.domain
-enum class Role { ADMIN, SECRETARY, DRIVER }
+package com.johel.smartschoolapp.domain
+
+enum class Role {
+    STUDENT,
+    DRIVER,
+    GUARDIAN,
+    ADMIN
+}

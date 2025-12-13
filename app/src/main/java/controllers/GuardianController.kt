@@ -1,24 +1,13 @@
-package com.johel.smartschool.controllers
+package com.johel.smartschoolapp.controllers
 
-import com.johel.smartschool.data.DataManager
-import com.johel.smartschool.domain.Guardian
-import com.johel.smartschool.util.Validators
+import com.johel.smartschoolapp.data.MemoryDataManager
+import com.johel.smartschoolapp.domain.Guardian
 
-class GuardianController(
-    private val guardians: DataManager<Guardian>
-) {
-    fun create(guardian: Guardian): Guardian {
-        Validators.nonEmpty(guardian.fullName, "Nombre del encargado")
-        Validators.nonEmpty(guardian.phone, "Teléfono")
-        Validators.nonEmpty(guardian.address, "Dirección")
-        return guardians.create(guardian)
+class GuardianController(private val dataManager: MemoryDataManager<Guardian>) {
+
+    fun add(guardian: Guardian) {
+        dataManager.add(guardian)
     }
 
-    fun get(id: String) = guardians.getById(id)
-    fun list(): List<Guardian> = guardians.getAll()
-
-    fun update(id: String, updater: (Guardian) -> Guardian) =
-        guardians.update(id, updater)
-
-    fun delete(id: String) = guardians.delete(id)
+    fun getAll(): List<Guardian> = dataManager.getAll()
 }

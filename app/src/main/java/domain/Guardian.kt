@@ -1,10 +1,12 @@
-package com.johel.smartschool.domain
+package com.johel.smartschoolapp.domain
 
-data class Guardian(
+class Guardian(
     val id: String,
-    var fullName: String,
-    var phone: String,
-    var address: String,
-    var idCopyUrl: String? = null,
-    var paymentMethod: String? = null
-)
+    val fullName: String,
+    val phone: String,
+    val address: String
+) {
+    override fun toString(): String {
+        return "Guardian(id='$id', fullName='$fullName', phone='$phone', address='$address')"
+    }
+}

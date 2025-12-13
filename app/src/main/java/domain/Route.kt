@@ -1,10 +1,12 @@
-package com.johel.smartschool.domain
+package com.johel.smartschoolapp.domain
 
-data class Route(
+class Route(
     val id: String,
-    var name: String,
-    var pickupPoints: List<String> = emptyList(),
-    var driverId: String? = null,
-    var busId: String? = null,
-    var studentIds: MutableSet<String> = mutableSetOf()
-)
+    val name: String,
+    val driverId: String,
+    val busId: String
+) {
+    override fun toString(): String {
+        return "Route(id='$id', name='$name', driverId='$driverId', busId='$busId')"
+    }
+}

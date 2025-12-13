@@ -1,11 +1,10 @@
-package com.johel.smartschool.util
-
-import java.util.UUID
-import java.util.Calendar
+package com.johel.smartschoolapp.util
 
 object IdGenerator {
-    fun newId(): String = UUID.randomUUID().toString()
+    private var counter = 0
 
-    fun enrollmentCode(year: Int = Calendar.getInstance().get(Calendar.YEAR), seq: Int): String =
-        "MAT-$year-${seq.toString().padStart(4, '0')}"
+    fun newID(): String {
+        counter++
+        return "ID-$counter"
+    }
 }

@@ -1,11 +1,12 @@
-package com.johel.smartschool.domain
+package com.johel.smartschoolapp.domain
 
-data class Driver(
+class Driver(
     val id: String,
-    var fullName: String,
-    var nationalId: String,
-    var licenseNumber: String,
-    var phone: String? = null,
-    var email: String? = null,
-    var available: Boolean = true
-)
+    val fullName: String,
+    val licenseNumber: String,
+    val phone: String
+) {
+    override fun toString(): String {
+        return "Driver(id='$id', fullName='$fullName', licenseNumber='$licenseNumber', phone='$phone')"
+    }
+}

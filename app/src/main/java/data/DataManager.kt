@@ -1,9 +1,8 @@
-package com.johel.smartschool.data
+package com.johel.smartschoolapp.data
 
 interface DataManager<T> {
-    fun create(item: T): T
-    fun getById(id: String): T?
+    fun add(item: T)
     fun getAll(): List<T>
-    fun update(id: String, updater: (T) -> T): T?
-    fun delete(id: String): Boolean
+    fun getById(id: String): T?
+    fun removeById(id: String): Boolean
 }

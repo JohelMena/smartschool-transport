@@ -1,7 +1,10 @@
-package com.johel.smartschool.domain
-data class User(
+package com.johel.smartschoolapp.domain
+
+open class User(
     val id: String,
-    val username: String,
-    val passwordHash: String,
-    val role: Role
-)
+    val fullName: String
+) {
+    override fun toString(): String {
+        return "User(id='$id', fullName='$fullName')"
+    }
+}
